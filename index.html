@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EcuTour - Acceso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared/style.css">
+    <style>
+        /* Animación suave para el cambio de formulario */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white rounded-[2rem] shadow-xl p-8 w-full max-w-sm relative overflow-hidden">
+
+        <div class="flex justify-center mb-6">
+            <img src="assets/logo.png" alt="EcuTour Logo"
+                class="w-56 h-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300">
+        </div>
+
+        <div id="view-login" class="fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Iniciar Sesión</h2>
+
+            <form id="formLogin" class="space-y-4">
+                <input type="email" id="loginEmail" placeholder="Email" required
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition">
+
+                <input type="password" id="loginPass" placeholder="Contraseña" required
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 outline-none transition">
+
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition transform active:scale-95">
+                    Entrar
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-gray-500 text-sm">¿No tienes cuenta?</p>
+                <button onclick="toggleView('registro')" class="text-blue-600 font-bold hover:underline">
+                    Crear Cuenta Nueva
+                </button>
+            </div>
+        </div>
+
+        <div id="view-registro" class="hidden fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Crear Cuenta</h2>
+
+            <form id="formRegistro" class="space-y-4">
+                <input type="text" id="regNombre" placeholder="Tu Nombre Completo" required
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition">
+
+                <input type="email" id="regEmail" placeholder="Email" required
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 outline-none transition">
+
+                <input type="password" id="regPass" placeholder="Crea una Contraseña" required
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-500 outline-none transition">
+
+                <button type="submit"
+                    class="w-full bg-green-600 text-white font-bold py-3.5 rounded-xl hover:bg-green-700 shadow-lg shadow-green-200 transition transform active:scale-95">
+                    Registrarme (+50 pts)
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-gray-500 text-sm">¿Ya tienes cuenta?</p>
+                <button onclick="toggleView('login')" class="text-blue-600 font-bold hover:underline">
+                    Volver a Iniciar Sesión
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="shared/session.js"></script>
+    <script>
+        // 1. Función para cambiar entre Login y Registro
+        function toggleView(vista) {
+            const loginView = document.getElementById('view-login');
+            const regView = document.getElementById('view-registro');
+
+            if (vista === 'registro') {
+                loginView.classList.add('hidden');
+                regView.classList.remove('hidden');
+            } else {
+                regView.classList.add('hidden');
+                loginView.classList.remove('hidden');
+            }
+        }
+
+        // 2. Manejar LOGIN
+        // --- LOGICA DE LOGIN ---
+        const formLogin = document.getElementById('formLogin');
+
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = e.target.querySelector('button');
+            const emailInput = document.getElementById('loginEmail');
+            const passInput = document.getElementById('loginPass');
+
+            const originalText = btn.innerText;
+            btn.innerText = "Verificando...";
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            try {
+                // Usamos la nueva auth local
+                const result = await Auth.login(emailInput.value.trim(), passInput.value.trim());
+
+                if (result.success) {
+                    btn.innerText = "¡Bienvenido!";
+                    btn.classList.remove('bg-blue-600');
+                    btn.classList.add('bg-green-600');
+
+                    setTimeout(() => {
+                        window.location.href = 'inicio/index.html';
+                    }, 800);
+                } else {
+                    alert('❌ Error: ' + (result.message || 'Credenciales incorrectas'));
+                    resetBtn();
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('⚠️ Error inesperado. Intenta nuevamente.');
+                resetBtn();
+            }
+
+            function resetBtn() {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        });
+
+        // --- LOGICA DE REGISTRO ---
+        // (Si tu HTML tiene formulario de registro, pégalo aquí también)
+        // Por ahora asumimos que el usuario probará el login primero.
+        // Si necesitas agregar el handler de registro, avísame.
+
+        // 3. Manejar REGISTRO
+        document.getElementById('formRegistro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+
+            const nombre = document.getElementById('regNombre').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+
+            if (!nombre || !email || !pass) return alert("Completa todos los campos");
+
+            const originalText = btn.innerText;
+            btn.innerText = "Registrando...";
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            try {
+                // Usamos la nueva auth local
+                const result = await Auth.register(nombre, email, pass);
+
+                if (result.success) {
+                    // Auth.register ya guarda la sesión del usuario
+                    alert('¡Registro exitoso! Te hemos regalado 50 puntos de bienvenida 🎁');
+                    window.location.href = 'inicio/index.html';
+                } else {
+                    alert('❌ Error: ' + (result.message || 'Error al registrar usuario (quizás ya existe).'));
+                    resetBtn();
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('⚠️ Error inesperado al registrar. Intenta nuevamente.');
+                resetBtn();
+            }
+
+            function resetBtn() {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        });
+
+        // Si ya está logueado, saltar al inicio
+        if (Session.getUser()) window.location.href = 'inicio/index.html';
+
+        // Si ya está logueado, saltar al inicio
+        if (Session.getUser()) window.location.href = 'inicio/index.html';
+    </script>
+</body>
+
+</html>

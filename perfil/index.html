@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+
+<body>
+    <div class="app-container p-4">
+
+        <!-- ENCABEZADO ESTÁNDAR -->
+        <header class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold">Mi Perfil</h2>
+                    <p class="text-blue-200 text-sm">Gestiona tu cuenta</p>
+                </div>
+            </div>
+        </header>
+
+        <div
+            class="bg-white rounded-2xl p-8 shadow-lg text-center mb-6 border border-gray-100 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+
+            <div
+                class="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl shadow-inner border-4 border-white">
+                👤
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold">Mi Perfil</h1>
+                <p class="text-blue-100 text-sm opacity-90">Gestor de Cuenta</p>
+            </div>
+            </header>
+
+            <!-- Stats Card -->
+            <div
+                class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-8 text-center relative overflow-hidden group hover:shadow-md transition">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <i class="fas fa-id-card text-9xl text-blue-600 transform rotate-12"></i>
+                </div>
+
+                <h2 class="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2">Puntos Acumulados</h2>
+                <p id="puntos-perfil"
+                    class="text-4xl font-black text-blue-600 mb-4 scale-100 group-hover:scale-110 transition-transform">
+                    0</p>
+
+                <div
+                    class="inline-flex items-center gap-2 bg-yellow-50 text-yellow-700 px-4 py-1.5 rounded-full text-xs font-bold border border-yellow-100">
+                    <i class="fas fa-crown"></i> Nivel Explorador
+                </div>
+            </div>
+
+            <!-- SECCIÓN FAVORITOS -->
+            <div class="mb-8">
+                <h3 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
+                    <i class="fas fa-heart text-red-500"></i> Lugares Favoritos
+                </h3>
+
+                <div id="lista-favoritos" class="space-y-3">
+                    <!-- JS Inject -->
+                    <p class="text-gray-400 text-sm text-center py-4">Aún no tienes favoritos.</p>
+                </div>
+            </div>
+
+            <!-- Logout -->
+            <button onclick="Session.logout()"
+                class="w-full bg-red-50 text-red-500 font-bold py-4 rounded-xl hover:bg-red-100 transition flex items-center justify-center gap-2">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+        </div>
+
+        <!-- SCRIPTS -->
+        <script src="../shared/session.js"></script>
+        <script src="../shared/nav.js"></script>
+        <script src="../shared/lugares.js"></script>
+        <script src="../shared/components.js"></script>
+        <script src="../shared/popup.js"></script> <!-- Para abrir modal desde favoritos -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                // Cargar Puntos
+                const user = Session.getUser();
+                if (user) {
+                    // Sincronizar con DB por si acaso
+                    try {
+                        const dbUser = await DB.getUser(user.email);
+                        if (dbUser) document.getElementById('puntos-perfil').innerText = dbUser.puntos;
+                        else document.getElementById('puntos-perfil').innerText = user.puntos;
+                    } catch (e) {
+                        document.getElementById('puntos-perfil').innerText = user.puntos || 0;
+                    }
+                }
+
+                // Renderizar Favoritos
+                const favsIds = JSON.parse(localStorage.getItem('ecutour_favoritos')) || [];
+                const container = document.getElementById('lista-favoritos');
+
+                if (favsIds.length > 0) {
+                    container.innerHTML = '';
+                    // Filtramos LugaresData con los IDs
+                    const favLugares = LugaresData.filter(l => favsIds.includes(l.id));
+
+                    favLugares.forEach(lugar => {
+                        // Usamos CardFactory en modo simple (reutilizando estilo home)
+                        // O podemos hacer un modo 'perfil' si queremos customizar.
+                        // Probemos modo 'simple' primero.
+                        container.innerHTML += CardFactory.crearTarjeta(lugar, 'simple');
+                    });
+                }
+            });
+        </script>
+</body>
+
+</html>

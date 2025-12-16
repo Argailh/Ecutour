@@ -1,0 +1,10 @@
+.app-container {
+    background: var(--bg-overlay);
+    min-height: 140vh; /* Cambiado de 134vh a 100vh para que ajuste exacto a la pantalla */
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding-bottom: 80px; /* Espacio para que el menú no tape el contenido */
+    overflow-x: hidden; /* Recomendado: Evita scroll horizontal accidental */
+}

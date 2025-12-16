@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Tus estilos -->
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+
+<body>
+    <div class="app-container p-4">
+
+        <!-- ENCABEZADO ESTÁNDAR -->
+        <header class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold">Mapa de Quito</h2>
+                    <p class="text-blue-200 text-sm">Explora y gana puntos</p>
+                </div>
+                <!-- Mini widget puntos opcional -->
+                <div class="text-center bg-white/20 p-2 rounded-lg">
+                    <p class="text-xs">Tus Puntos</p>
+                    <p id="userPointsWidget" class="text-xl font-bold text-yellow-300">...</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAPA -->
+        <div class="relative w-full h-[500px] bg-blue-100 overflow-hidden rounded-xl shadow-inner border border-gray-200"
+            id="mapaContenedor">
+            <!-- Nota: Asegúrate de que esta imagen exista o usa un color sólido de fallback -->
+            <div class="absolute inset-0 bg-[url('../assets/mapa_quito_cartoon.jpg')] bg-cover bg-center opacity-90">
+            </div>
+
+            <!-- LOS PINES SE INYECTARÁN CON JS (Logic.js) -->
+        </div>
+
+        <!-- TEXTO -->
+        <div class="mt-4 p-4 bg-white/50 backdrop-blur rounded-xl border border-white/40 text-center">
+            <p class="text-gray-600 text-sm">
+                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                Toca un ícono en el mapa para registrar tu visita.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- TUS SCRIPT GLOBALES -->
+    <script src="../shared/session.js"></script>
+    <script src="../shared/nav.js"></script>
+
+    <script>
+        // Pequeño script para mostrar puntos en el header localmente si se desea
+        if (typeof Session !== 'undefined') {
+            const u = Session.getUser();
+            if (u && document.getElementById('userPointsWidget')) {
+                document.getElementById('userPointsWidget').innerText = u.puntos || 0;
+            }
+        }
+    </script>
+
+    <!-- Shared Data & Components -->
+    <script src="../shared/lugares.js"></script>
+    <script src="../shared/popup.js"></script>
+
+    <!-- SCRIPT DEL MAPA -->
+    <script src="logic.js"></script>
+</body>
+
+</html>

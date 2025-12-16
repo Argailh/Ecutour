@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito - EcuTour</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/style.css">
+</head>
+
+<body>
+
+    <div class="app-container p-4">
+
+        <!-- HEADER SIMPLE (Estilo Mockup) -->
+        <header class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <button onclick="window.history.back()" class="text-gray-800 hover:text-blue-600 transition">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-2xl font-bold text-gray-900">Mi Carrito</h1>
+            </div>
+            <span class="bg-blue-100 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">
+                <span id="cart-count">0</span> items
+            </span>
+        </header>
+
+        <!-- LISTA DE ITEMS -->
+        <div id="lista-carrito" class="space-y-4 mb-8 min-h-[200px]">
+            <!-- Inyectado por JS -->
+            <div class="text-center text-gray-400 py-10">Cargando...</div>
+        </div>
+
+        <!-- RESUMEN DE ORDEN (Sticky Bottom-ish look) -->
+        <div id="panel-pago" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hidden">
+            <h3 class="font-bold text-gray-900 text-lg mb-4 border-b border-gray-100 pb-3">Resumen de la Orden</h3>
+
+            <!-- Totales -->
+            <div class="space-y-2 mb-6">
+                <div class="flex justify-between text-gray-600 text-sm">
+                    <span>Total a Pagar</span>
+                    <span class="font-bold text-gray-900">$<span id="total-precio">0</span></span>
+                </div>
+                <div class="flex justify-between items-center bg-green-50 p-3 rounded-xl border border-green-100">
+                    <span class="text-green-800 font-bold text-sm">Puntos a Ganar</span>
+                    <span class="text-xl font-bold text-green-600">+<span id="total-puntos-final">0</span> pts</span>
+                </div>
+            </div>
+
+            <!-- Formulario Pago -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Datos del Titular</label>
+                    <input type="text" id="titular" placeholder="Nombre en la tarjeta" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarjeta de Crédito /
+                        Débito</label>
+                    <div class="relative mb-3">
+                        <i class="far fa-credit-card absolute left-4 top-3.5 text-gray-400"></i>
+                        <input type="text" id="tarjeta" placeholder="0000 0000 0000 0000" maxlength="19"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition">
+                    </div>
+                    <div class="flex gap-3">
+                        <input type="text" id="expira" placeholder="MM/YY" maxlength="5"
+                            class="w-1/2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition">
+                        <input type="text" id="cvv" placeholder="CVV" maxlength="3"
+                            class="w-1/2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition">
+                    </div>
+                </div>
+
+                <button id="btnPagar" onclick="procesarPago()"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-200 active:scale-95 transition flex justify-center items-center gap-2">
+                    <span>Pagar y Recibir Puntos</span>
+                    <i class="fas fa-coins"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+            <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center text-4xl mb-4 text-gray-300">
+                🛒
+            </div>
+            <h3 class="font-bold text-gray-800 text-lg">Tu carrito está vacío</h3>
+            <p class="text-gray-400 text-sm mt-1 max-w-xs mx-auto">Agrega planes o lugares para comenzar.</p>
+            <button onclick="window.location.href='../explorar/index.html'"
+                class="mt-6 bg-blue-50 text-blue-600 font-bold px-6 py-3 rounded-xl hover:bg-blue-100 transition">
+                Ir a Explorar
+            </button>
+        </div>
+
+    </div>
+
+    <!-- MODAL GENERICA -->
+    <div id="genericModal"
+        class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div
+            class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl transform scale-100 transition-transform text-center">
+
+            <div id="modalIcon"
+                class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                ℹ️
+            </div>
+
+            <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-2">Título</h3>
+            <p id="modalMsg" class="text-gray-500 text-sm mb-6">Mensaje del modal</p>
+
+            <div id="modalButtons" class="flex gap-3 justify-center">
+                <!-- Botones inyectados -->
+                <button onclick="closeModal()"
+                    class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="../shared/session.js"></script>
+    <script src="../shared/nav.js"></script>
+
+    <script>
+        // --- GESTIÓN DEL MODAL ---
+        const modal = document.getElementById('genericModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMsg');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalButtons = document.getElementById('modalButtons');
+
+        // Función para mostrar alertas custom
+        window.showAlert = function (title, msg, icon = 'ℹ️', type = 'info') {
+            return new Promise((resolve) => {
+                modalTitle.innerText = title;
+                modalMsg.innerText = msg;
+                modalIcon.innerHTML = icon;
+
+                // Color icono
+                if (type === 'error') modalIcon.className = "w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+                else if (type === 'success') modalIcon.className = "w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+                else modalIcon.className = "w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+
+                modalButtons.innerHTML = `<button id="btnOk" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 shadow-lg transition active:scale-95">Aceptar</button>`;
+
+                document.getElementById('btnOk').onclick = () => {
+                    closeModal();
+                    resolve(true);
+                };
+
+                modal.classList.remove('hidden');
+            });
+        };
+
+        // Función para CONFIRM custom
+        window.showConfirm = function (title, msg, onConfirm) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modalIcon.innerHTML = '🗑️';
+            modalIcon.className = "w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+
+            modalButtons.innerHTML = `
+                <button onclick="closeModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-200 transition">Cancelar</button>
+                <button id="btnConfirm" class="flex-1 bg-red-500 text-white font-bold py-3 rounded-xl hover:bg-red-600 shadow-lg shadow-red-200 transition active:scale-95">Eliminar</button>
+            `;
+
+            document.getElementById('btnConfirm').onclick = () => {
+                closeModal();
+                if (onConfirm) onConfirm();
+            };
+
+            modal.classList.remove('hidden');
+        };
+
+        window.closeModal = function () {
+            modal.classList.add('hidden');
+        };
+
+        // --- LÓGICA CARRITO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('lista-carrito');
+            const panelPago = document.getElementById('panel-pago');
+            const emptyState = document.getElementById('empty-state');
+            const cartCount = document.getElementById('cart-count');
+
+            // Cargar carrito
+            let miPlan = JSON.parse(localStorage.getItem('ecutour_plan')) || [];
+            let totalPuntos = 0;
+            let totalPrecio = 0;
+
+            function render() {
+                container.innerHTML = '';
+                totalPuntos = 0;
+                totalPrecio = 0;
+
+                if (miPlan.length === 0) {
+                    panelPago.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                    emptyState.classList.add('flex');
+                    cartCount.innerText = 0;
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+                panelPago.classList.remove('hidden');
+                cartCount.innerText = miPlan.length;
+
+                miPlan.forEach((item, index) => {
+                    // Normalizar Puntos
+                    let pts = 0;
+                    if (typeof item.puntos === 'string') pts = parseInt(item.puntos.replace(/\D/g, '')) || 0;
+                    else pts = item.puntos || 0;
+                    totalPuntos += pts;
+
+                    // Normalizar Precio
+                    let price = 0;
+                    if (item.precio) {
+                        if (typeof item.precio === 'string') price = parseInt(item.precio.replace(/\D/g, '')) || 0;
+                        else price = item.precio || 0;
+                    }
+                    totalPrecio += price;
+
+                    // Detectar renderizado (Imagen vs Emoji)
+                    let mediaHTML = '';
+                    const iconSource = item.icono || item.img || item.imagen || '📍';
+
+                    if (iconSource.toString().length < 10 && !iconSource.toString().includes('/')) {
+                        mediaHTML = `<div class="w-full h-full bg-gray-100 flex items-center justify-center text-3xl">${iconSource}</div>`;
+                    } else {
+                        mediaHTML = `<img src="${iconSource}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='📍'">`;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 transition hover:shadow-md";
+                    card.innerHTML = `
+                        <!-- Media -->
+                        <div class="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
+                            ${mediaHTML}
+                        </div>
+                        
+                        <!-- Info -->
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-bold text-gray-900 text-sm truncate">${item.nombre || item.title}</h3>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs text-gray-500 font-bold">$${price}</span>
+                                <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">
+                                    +${pts}pts
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Trash -->
+                        <button onclick="eliminarItem(${index})" class="w-10 h-10 rounded-full bg-red-50 text-red-400 flex items-center justify-center hover:bg-red-100 hover:text-red-500 transition active:scale-95">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+
+                // Update Totals
+                document.getElementById('total-precio').innerText = totalPrecio;
+                document.getElementById('total-puntos-final').innerText = totalPuntos;
+            }
+
+            window.eliminarItem = function (index) {
+                // MODAL CUSTOM: Reemplazo del confirm nativo
+                showConfirm(
+                    '¿Eliminar Item?',
+                    '¿Estás seguro que deseas eliminar este elemento de tu carrito?',
+                    () => {
+                        miPlan.splice(index, 1);
+                        localStorage.setItem('ecutour_plan', JSON.stringify(miPlan));
+                        render();
+                    }
+                );
+            };
+
+            // Máscara simple para tarjeta
+            document.getElementById('tarjeta').addEventListener('input', function (e) {
+                e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+            });
+
+            window.procesarPago = async function () {
+                const titular = document.getElementById('titular').value;
+                const tarjeta = document.getElementById('tarjeta').value;
+                const expira = document.getElementById('expira').value;
+                const cvv = document.getElementById('cvv').value;
+
+                if (!titular || !tarjeta || !expira || !cvv) {
+                    showAlert('Faltan Datos', 'Por favor completa todos los campos del pago.', '⚠️');
+                    return;
+                }
+
+                if (tarjeta.length < 16) {
+                    showAlert('Tarjeta Inválida', 'Número de tarjeta incompleto.', '💳', 'error');
+                    return;
+                }
+
+                const btn = document.getElementById('btnPagar');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+                btn.disabled = true;
+
+                setTimeout(async () => {
+                    const motivo = `Compra Web ($${totalPrecio}): ${miPlan.length} items`;
+                    await Session.updatePoints(totalPuntos, motivo);
+
+                    localStorage.removeItem('ecutour_plan');
+
+                    // MODAL SUCCESS
+                    await showAlert(
+                        '¡Pago Exitoso!',
+                        `Se cobraron $${totalPrecio} de tu tarjeta.\nHas recibido +${totalPuntos} puntos nuevos.`,
+                        '🎉',
+                        'success'
+                    );
+
+                    window.location.href = '../inicio/index.html';
+                }, 2000);
+            };
+
+            render();
+        });
+    </script>
+
+</body>
+
+</html>

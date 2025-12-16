@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../shared/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container p-4">
+        <!-- Logo Brand -->
+        <div class="flex justify-center mb-4 fade-in">
+            <img src="../assets/logo.png" alt="EcuTour" class="h-16 object-contain drop-shadow-sm">
+        </div>
+
+        <header class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-blue-200 text-sm">Hola,</p>
+                    <h2 id="userName" class="text-2xl font-bold">Usuario</h2>
+                </div>
+                <div class="text-center bg-white/20 p-2 rounded-lg">
+                    <p class="text-xs">Puntos</p>
+                    <p id="userPoints" class="text-xl font-bold text-yellow-300">0</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <a href="../mapa/index.html" class="bg-white p-4 rounded-xl shadow flex flex-col items-center">
+                <span class="text-4xl mb-2">🗺️</span>
+                <span class="font-bold">Ir al Mapa</span>
+            </a>
+            <a href="../regalo/index.html" class="bg-white p-4 rounded-xl shadow flex flex-col items-center">
+                <span class="text-4xl mb-2">🎁</span>
+                <span class="font-bold">Premios</span>
+            </a>
+            <a href="../explorar/index.html" class="bg-white p-4 rounded-xl shadow flex flex-col items-center">
+                <span class="text-4xl mb-2">✨</span>
+                <span class="font-bold">Arma tu viaje</span>
+            </a>
+            <a href="../planes/index.html" class="bg-white p-4 rounded-xl shadow flex flex-col items-center">
+                <span class="text-4xl mb-2">📅</span>
+                <span class="font-bold">Planes</span>
+            </a>
+        </div>
+        <h3 class="font-bold text-xl mb-3 mt-6 text-gray-800">Lugares Destacados</h3>
+        <div id="contenedor-destacados"></div>
+
+        <script src="../shared/lugares.js"></script>
+
+        <script src="../shared/components.js"></script>
+
+        <script src="../shared/popup.js"></script>
+
+        <script>
+            const contenedor = document.getElementById('contenedor-destacados');
+
+            if (contenedor) {
+                // Pintamos las tarjetas
+                LugaresData.slice(0, 4).forEach(lugar => {
+                    // CardFactory creará el HTML con el onclick="abrirModal(ID)"
+                    contenedor.innerHTML += CardFactory.crearTarjeta(lugar, 'simple');
+                });
+            }
+        </script>
+    </div>
+
+    <script src="../shared/session.js"></script>
+    <script src="../shared/nav.js"></script>
+    <script src="logic.js"></script>
+    <script src="../shared/popup.js"></script>
+</body>
+
+</html>

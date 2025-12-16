@@ -1,0 +1,185 @@
+// shared/lugares.js
+const LugaresData = [
+    {
+        id: 1,
+        nombre: 'Mitad del Mundo',
+        icono: '🌍',
+        descripcion: 'Monumento icónico ubicado en la línea ecuatorial donde puedes estar en ambos hemisferios.',
+        rating: 4.8,
+        precio: '$5',
+        distancia: '2.5 km',
+        puntos: 100,
+        categoria: 'turismo',
+        coords: { top: '10%', left: '50%' } // Arriba Centro
+    },
+    {
+        id: 2,
+        nombre: 'Centro Histórico',
+        icono: '🏛️',
+        descripcion: 'Patrimonio Cultural de la Humanidad declarado por UNESCO. Arquitectura colonial espectacular.',
+        rating: 4.9,
+        precio: '$10',
+        distancia: '0 km',
+        puntos: 80,
+        categoria: 'turismo',
+        coords: { top: '50%', left: '50%' } // Centro absoluto
+    },
+    {
+        id: 3,
+        nombre: 'TelefériQo',
+        icono: '🚡',
+        descripcion: 'Uno de los teleféricos más altos del mundo (4.100m). Vista de volcanes Cotopaxi, Cayambe y el Rucu Pichincha.',
+        rating: 4.9,
+        precio: '$8',
+        distancia: '5.0 km',
+        puntos: 120,
+        categoria: 'turismo',
+        coords: { top: '25%', left: '20%' } // Arriba Izquierda
+    },
+    {
+        id: 4,
+        nombre: 'La Ronda',
+        icono: '🎻',
+        descripcion: 'Calle tradicional llena de vida nocturna, artesanías y gastronomía quiteña.',
+        rating: 4.7,
+        precio: '$5',
+        distancia: '1.5 km',
+        puntos: 90,
+        categoria: 'huecas',
+        coords: { top: '75%', left: '70%' } // Abajo Derecha
+    },
+    {
+        id: 5,
+        nombre: 'Hotel Plaza Grande',
+        icono: '🏨',
+        descripcion: 'Hotel boutique de lujo en pleno corazón del Centro Histórico, en el edificio más emblemático.',
+        rating: 4.8,
+        precio: '$40',
+        distancia: '0.1 km',
+        puntos: 150,
+        categoria: 'hoteles',
+        coords: { top: '42%', left: '62%' } // Centro Derecha
+    },
+    {
+        id: 6,
+        nombre: 'Iglesia de la Compañía',
+        icono: '⛪',
+        descripcion: 'La joya del barroco latinoamericano. Su interior cubierto de láminas de oro es impresionante.',
+        rating: 5.0,
+        precio: '$7',
+        distancia: '0.3 km',
+        puntos: 110,
+        categoria: 'turismo',
+        coords: { top: '60%', left: '42%' } // Centro Izquierda
+    },
+    {
+        id: 7,
+        nombre: 'Basílica del Voto Nacional',
+        icono: '🏰',
+        descripcion: 'El templo neogótico más grande de Latinoamérica. Gárgolas de animales ecuatorianos y vistas únicas.',
+        rating: 4.9,
+        precio: '$4',
+        distancia: '1.0 km',
+        puntos: 130,
+        categoria: 'turismo',
+        coords: { top: '25%', left: '75%' } // Arriba Derecha
+    },
+    {
+        id: 8,
+        nombre: 'El Panecillo',
+        icono: '🗽',
+        descripcion: 'Cerro emblemático con la Virgen Alada gigante. El mejor mirador 360° de la ciudad.',
+        rating: 4.6,
+        precio: '$2',
+        distancia: '2.0 km',
+        puntos: 100,
+        categoria: 'turismo',
+        coords: { top: '85%', left: '20%' } // Abajo Izquierda
+    },
+    {
+        id: 9,
+        nombre: 'Café Plaza Grande',
+        icono: '☕',
+        descripcion: 'Cafetería tradicional en un edificio histórico. Ideal para un descanso en el centro.',
+        rating: 4.5,
+        precio: '$12',
+        distancia: '0.1 km',
+        puntos: 50,
+        categoria: 'restaurantes',
+        coords: { top: '35%', left: '45%' } // Un poco arriba
+    },
+    {
+        id: 10,
+        nombre: 'Hasta la Vuelta Señor',
+        icono: '🥘',
+        descripcion: 'Restaurante tradicional de comida ecuatoriana en el Palacio Arzobispal.',
+        rating: 4.7,
+        precio: '$25',
+        distancia: '0.2 km',
+        puntos: 70,
+        categoria: 'restaurantes',
+        // OMITIDO PARA EVITAR CLUTTER
+        // coords: { top: '48%', left: '46%' }
+    },
+    {
+        id: 11,
+        nombre: 'Vista Hermosa',
+        icono: '🍷',
+        descripcion: 'Restaurante-mirador con azotea. Vistas nocturnas 360° del Centro Histórico.',
+        rating: 4.8,
+        precio: '$35',
+        distancia: '0.5 km',
+        puntos: 90,
+        categoria: 'restaurantes',
+        coords: { top: '20%', left: '50%' } // Bien arriba
+    },
+    {
+        id: 12,
+        nombre: 'La Capilla',
+        icono: '🍽️',
+        descripcion: 'Cocina ecuatoriana contemporánea en una casona frente a la Plaza San Francisco.',
+        rating: 4.7,
+        precio: '$30',
+        distancia: '0.4 km',
+        puntos: 85,
+        categoria: 'restaurantes',
+        coords: { top: '65%', left: '25%' } // Abajo Izquierda (cerca Panecillo pero más arriba)
+    },
+    {
+        id: 13,
+        nombre: 'Casa Gangotena',
+        icono: '🛎️',
+        descripcion: 'Hotel de ultra-lujo en una mansión histórica frente a San Francisco.',
+        rating: 4.9,
+        precio: '$40',
+        distancia: '0.4 km',
+        puntos: 200,
+        categoria: 'hoteles',
+        coords: { top: '55%', left: '15%' } // Izquierda Extrema
+    },
+    {
+        id: 14,
+        nombre: 'Hotel Patio Andaluz',
+        icono: '🏺',
+        descripcion: 'Hotel boutique estilo colonial con patios internos, a pasos de la plaza central.',
+        rating: 4.6,
+        precio: '$38',
+        distancia: '0.3 km',
+        puntos: 160,
+        categoria: 'hoteles',
+        // OMITIDO PARA EVITAR CLUTTER
+        // coords: { top: '45%', left: '40%' }
+    },
+    {
+        id: 15,
+        nombre: 'Casona de la Ronda',
+        icono: '🕯️',
+        descripcion: 'Hospedaje con encanto en una casona de 1738 en la calle más bohemia.',
+        rating: 4.7,
+        precio: '$35',
+        distancia: '1.5 km',
+        puntos: 140,
+        categoria: 'hoteles',
+        coords: { top: '80%', left: '80%' } // Abajo Derecha Extrema
+    }
+];
