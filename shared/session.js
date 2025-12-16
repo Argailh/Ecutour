@@ -182,3 +182,18 @@ const Auth = {
 
 // Inicializar DB al cargar (opcional, para asegurar que esté lista)
 DB.init().catch(console.error);
+
+// PWA Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // En GitHub Pages o rutas profundas, asegúrate que la ruta sea correcta
+        // Usamos una ruta absoluta relativa al dominio
+        const swPath = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? '/sw.js'
+            : '/Ecutour/sw.js'; // Ajuste posible para GitHub Pages si el repo no es raiz
+
+        // Para este caso local/root, probamos /sw.js primero
+        navigator.serviceWorker.register('../sw.js') // Intentamos salir a raiz si estamos en subdir
+            .catch(() => navigator.serviceWorker.register('./sw.js')); // Fallack para root
+    });
+}
