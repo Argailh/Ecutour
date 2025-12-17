@@ -223,13 +223,14 @@
                     totalPrecio += price;
 
                     // Detectar renderizado (Imagen vs Emoji)
+                    // Detectar renderizado (Imagen vs Emoji)
                     let mediaHTML = '';
-                    const iconSource = item.icono || item.img || item.imagen || '📍';
+                    const imageUrl = item.imagen || (item.icono && (item.icono.toString().includes('/') || item.icono.toString().includes('.')) ? item.icono : null);
 
-                    if (iconSource.toString().length < 10 && !iconSource.toString().includes('/')) {
-                        mediaHTML = `<div class="w-full h-full bg-gray-100 flex items-center justify-center text-3xl">${iconSource}</div>`;
+                    if (imageUrl) {
+                        mediaHTML = `<img src="${imageUrl}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='📍'">`;
                     } else {
-                        mediaHTML = `<img src="${iconSource}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='📍'">`;
+                        mediaHTML = `<div class="w-full h-full bg-gray-100 flex items-center justify-center text-3xl">${item.icono || '📍'}</div>`;
                     }
 
                     const card = document.createElement('div');

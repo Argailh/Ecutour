@@ -47,7 +47,7 @@ const content = document.getElementById('modalContent');
 const btnAdd = document.getElementById('btnAgregarCarrito');
 
 // --- FUNCIÓN PRINCIPAL (La que llamará Components.js) ---
-window.abrirModal = function (idLugar) {
+window.abrirModal = function (idLugar, fromMap = false) {
     // BUSCAR EL LUGAR EN TU ARCHIVO DE DATOS (lugares.js)
     // Esto es mucho más limpio que pasar strings por HTML
     lugarActual = LugaresData.find(l => l.id === idLugar);
@@ -62,7 +62,11 @@ window.abrirModal = function (idLugar) {
 
     // Manejar Icono (Emoji) o Imagen
     const visual = document.getElementById('modalVisual');
-    if (lugarActual.icono.includes('/') || lugarActual.icono.includes('.')) {
+
+    // LOGICA "MENOS EN MAPA": Si viene del mapa, forza el uso de icono/emoji
+    if (!fromMap && lugarActual.imagen) {
+        visual.innerHTML = `<img src="${lugarActual.imagen}" class="w-full h-full object-cover rounded-xl shadow-inner" alt="${lugarActual.nombre}">`;
+    } else if (lugarActual.icono.includes('/') || lugarActual.icono.includes('.')) {
         // Es una ruta de imagen (ej: img/foto.jpg)
         visual.innerHTML = `<img src="${lugarActual.icono}" class="w-full h-full object-cover rounded-xl">`;
     } else {

@@ -14,7 +14,10 @@ const CardFactory = {
             <div onclick="abrirModal(${lugar.id})" 
                  class="bg-white p-4 rounded-xl shadow-md mb-3 flex items-center cursor-pointer transition transform active:scale-95 hover:shadow-lg">
                 
-                <div class="text-4xl mr-4 w-12 text-center">${lugar.icono}</div>
+                ${lugar.imagen
+                    ? `<img src="${lugar.imagen}" class="w-16 h-16 rounded-lg object-cover mr-4 shadow-sm" alt="${lugar.nombre}">`
+                    : `<div class="text-4xl mr-4 w-12 text-center">${lugar.icono}</div>`
+                }
                 
                 <div class="flex-1">
                     <h3 class="font-bold text-gray-800 text-lg">${lugar.nombre}</h3>
@@ -36,8 +39,11 @@ const CardFactory = {
             return `
             <div class="bg-white p-4 rounded-xl shadow-sm mb-4 border border-gray-100 flex items-center gap-4 transition hover:shadow-md">
                 <!-- Icono / Avatar -->
-                <div onclick="abrirModal(${lugar.id})" class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-3xl flex-shrink-0 cursor-pointer border border-blue-100">
-                    ${lugar.icono}
+                <div onclick="abrirModal(${lugar.id})" class="w-16 h-16 flex-shrink-0 cursor-pointer">
+                    ${lugar.imagen
+                    ? `<img src="${lugar.imagen}" class="w-full h-full rounded-lg object-cover shadow-sm border border-gray-100" alt="${lugar.nombre}">`
+                    : `<div class="w-full h-full rounded-full bg-blue-50 flex items-center justify-center text-3xl border border-blue-100">${lugar.icono}</div>`
+                }
                 </div>
 
                 <!-- Info Central -->

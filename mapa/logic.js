@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
       pin.onclick = () => {
         // Función global definida en shared/popup.js
         if (typeof abrirModal === 'function') {
-          abrirModal(lugar.id);
+          // 'true' indica que viene del mapa -> NO mostrar imagen principal en popup
+          abrirModal(lugar.id, true);
         } else {
           console.error("Popup Shared no cargado");
           alert(lugar.nombre);
