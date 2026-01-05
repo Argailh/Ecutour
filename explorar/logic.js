@@ -9,12 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Definir Categorías (Icono + Nombre + Key en data)
     const categorias = [
         { id: 'all', label: 'Todos', icon: '' },
-        { id: 'hoteles', label: 'Hoteles', icon: '🏨' },
-        { id: 'restaurantes', label: 'Restaurantes', icon: '🍽️' },
-        { id: 'huecas', label: 'Huecas Típicas', icon: '🍲' },
-        { id: 'turismo', label: 'Turismo', icon: '🏛️' },
+        { id: 'turismo', label: 'Centro Histórico', icon: '🏛️' },
+        { id: 'iglesias', label: 'Iglesias', icon: '⛪' },
+        { id: 'iconos', label: 'Íconos', icon: '⭐' },
         { id: 'museos', label: 'Museos', icon: '🎨' },
-        { id: 'parques', label: 'Parques', icon: '🌳' }
+        { id: 'miradores', label: 'Miradores', icon: '🌄' },
+        { id: 'cultura', label: 'Cultura', icon: '🎭' },
+        { id: 'restaurantes', label: 'Restaurantes', icon: '🍽️' },
+        { id: 'huecas', label: 'Huecas', icon: '🍲' },
+        { id: 'extras', label: 'Extras', icon: '➕' }
     ];
 
     let currentCat = 'all';

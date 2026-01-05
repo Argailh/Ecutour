@@ -110,69 +110,146 @@
         // --- DATA DE PAQUETES ---
         const PlanesData = [
             {
-                id: 'familiar',
-                title: 'Plan Familiar: Fin de Semana en Baños',
-                price: '$150',
-                points: 200,
-                tag: 'FAMILIAR',
-                img: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1000&auto=format&fit=crop', // Nature/Travel
-                description: 'Un escape perfecto para conectar con la naturaleza. Incluye hospedaje, actividades y relax para 4 personas.',
-                includes: [
-                    'Hospedaje 2 noches (Habitación Familiar)',
-                    'Entrada al Pailón del Diablo',
-                    'Desayunos buffet incluidos',
-                    'Tour en Chiva nocturna'
-                ],
-                itinerary: [
-                    { time: 'Día 1', desc: 'Llegada y check-in. Visita a la Casa del Árbol.' },
-                    { time: 'Día 2', desc: 'Ruta de las cascadas y tarde de piscina termal.' },
-                    { time: 'Día 3', desc: 'Desayuno típico y retorno.' }
-                ],
-                icon: 'users',
-                color: 'blue'
-            },
-            {
                 id: 'romantico',
-                title: 'Plan Romántico: Cena y Centro Histórico',
-                price: '$200',
-                points: 250,
+                title: 'Plan Romántico: Noche Quiteña',
+                price: '$85',
+                points: 50,
                 tag: 'PAREJAS',
-                img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000&auto=format&fit=crop', // Cocktail/Dinner
-                description: 'Sorprende a tu pareja con una noche mágica en el corazón de Quito colonial.',
+                img: '../assets/centro_historico.jpg',
+                description: 'Vive una noche mágica recorriendo el Centro Histórico iluminado y cerrando la experiencia con una cena especial. 📌 Incluye entradas y souvenir.',
                 includes: [
-                    'Noche en Hotel Boutique (Centro Histórico)',
-                    'Cena romántica de 3 tiempos en azotea',
-                    'Decoración especial en habitación',
-                    'Botella de vino de bienvenida'
+                    'Recorrido nocturno por el Centro Histórico',
+                    'Visita a iglesias históricas',
+                    'Paseo por La Ronda',
+                    'Cena en restaurante emblemático'
                 ],
                 itinerary: [
-                    { time: '18:00', desc: 'Check-in y cóctel de bienvenida.' },
-                    { time: '20:00', desc: 'Cena a la luz de las velas con vista al Panecillo.' },
-                    { time: 'Mañana', desc: 'Desayuno en la cama.' }
+                    { time: '•', desc: 'Centro Histórico de Quito' },
+                    { time: '•', desc: 'Plaza Grande' },
+                    { time: '•', desc: 'Iglesia de la Compañía de Jesús' },
+                    { time: '•', desc: 'Calle La Ronda' },
+                    { time: '•', desc: 'Café Plaza Grande' }
                 ],
                 icon: 'heart',
                 color: 'pink'
             },
             {
-                id: 'cultural',
-                title: 'Aventura Cultural: Leyendas de Quito',
-                price: '$120',
-                points: 180,
-                tag: 'CULTURA',
-                img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=1000&auto=format&fit=crop', // Colonial House
-                description: 'Sumérgete en las historias secretas de la ciudad. Un recorrido guiado teatralizado.',
+                id: 'familiar',
+                title: 'Plan Familiar: Quito Patrimonial',
+                price: '$38',
+                points: 50,
+                tag: 'FAMILIAR / GRUPOS',
+                img: '../assets/iglesia_compania.jpg',
+                description: 'Descubre los principales íconos históricos de Quito en un recorrido ideal para toda la familia. 📌 Incluye entradas y souvenir.',
                 includes: [
-                    'Tour nocturno teatralizado "Leyendas de Quito"',
-                    'Entrada a la Iglesia de la Compañía (Cúpulas)',
-                    'Canelazo quiteño tradicional',
-                    'Transporte privado'
+                    'Recorrido por el Centro Histórico',
+                    'Visita a plazas y conventos emblemáticos',
+                    'Ingreso a iglesias patrimoniales',
+                    'Almuerzo en restaurante tradicional'
                 ],
                 itinerary: [
-                    { time: '19:00', desc: 'Punto de encuentro en Plaza Grande.' },
-                    { time: '20:30', desc: 'Visita exclusiva a catacumbas.' },
-                    { time: '22:00', desc: 'Degustación de dulces tradicionales.' }
+                    { time: '•', desc: 'Centro Histórico de Quito' },
+                    { time: '•', desc: 'Plaza San Francisco' },
+                    { time: '•', desc: 'Iglesia de San Francisco' },
+                    { time: '•', desc: 'Iglesia de la Compañía de Jesús' },
+                    { time: '•', desc: 'Basílica del Voto Nacional' },
+                    { time: '•', desc: 'Hasta la Vuelta Señor' }
                 ],
-                icon: 'theater-masks',
+                icon: 'users',
+                color: 'blue'
+            },
+            {
+                id: 'mitad_mundo',
+                title: 'Plan Cultural: Mitad del Mundo',
+                price: '$48',
+                points: 40,
+                tag: 'GRUPOS / FAMILIAR',
+                img: '../assets/mitad_mundo.png',
+                description: 'Conoce la línea ecuatorial y vive una de las experiencias más icónicas del Ecuador. 📌 Incluye entradas y souvenir.',
+                includes: [
+                    'Visita a la Mitad del Mundo',
+                    'Recorrido por museos ecuatoriales',
+                    'Experiencia cultural interactiva',
+                    'Almuerzo en restaurante del sector'
+                ],
+                itinerary: [
+                    { time: '•', desc: 'Ciudad Mitad del Mundo' },
+                    { time: '•', desc: 'Museo Intiñán' },
+                    { time: '•', desc: 'Monumento Ecuatorial' },
+                    { time: '•', desc: 'Restaurantes del sector' }
+                ],
+                icon: 'globe',
+                color: 'purple'
+            },
+            {
+                id: 'panoramico',
+                title: 'Plan Panorámico: Quito desde las Alturas',
+                price: '$58',
+                points: 40,
+                tag: 'GRUPOS / FAMILIAR',
+                img: '../assets/teleferico.png',
+                description: 'Disfruta Quito desde sus miradores más impresionantes y vive una experiencia inolvidable. 📌 Incluye entradas y souvenir.',
+                includes: [
+                    'Subida al TelefériQo',
+                    'Caminata en miradores',
+                    'Vista panorámica de la ciudad',
+                    'Almuerzo con vista privilegiada'
+                ],
+                itinerary: [
+                    { time: '•', desc: 'TelefériQo' },
+                    { time: '•', desc: 'Cruz Loma' },
+                    { time: '•', desc: 'El Panecillo' },
+                    { time: '•', desc: 'Mirador de Itchimbía' },
+                    { time: '•', desc: 'Vista Hermosa' }
+                ],
+                icon: 'mountain',
+                color: 'blue'
+            },
+            {
+                id: 'museos',
+                title: 'Plan Cultural: Museos de Quito',
+                price: '$32',
+                points: 40,
+                tag: 'FAMILIAR / CULTURA',
+                img: '../assets/centro_historico.jpg',
+                description: 'Sumérgete en la historia y el arte de Quito a través de sus museos más representativos. 📌 Incluye entradas y souvenir.',
+                includes: [
+                    'Visita a museos emblemáticos',
+                    'Recorrido cultural guiado',
+                    'Experiencia patrimonial',
+                    'Pausa en café cultural'
+                ],
+                itinerary: [
+                    { time: '•', desc: 'Museo de la Ciudad' },
+                    { time: '•', desc: 'Museo del Agua – Yaku' },
+                    { time: '•', desc: 'Casa del Alabado' },
+                    { time: '•', desc: 'Café Tianguez' }
+                ],
+                icon: 'landmark',
+                color: 'purple'
+            },
+            {
+                id: 'nocturno',
+                title: 'Plan Nocturno: Leyendas de Quito',
+                price: '$42',
+                points: 50,
+                tag: 'GRUPOS / CULTURA',
+                img: '../assets/la_ronda.jpg',
+                description: 'Descubre el lado místico de Quito entre historias, iglesias y calles históricas. 📌 Incluye entradas y souvenir.',
+                includes: [
+                    'Ruta nocturna de leyendas',
+                    'Visita a iglesias históricas',
+                    'Caminata por calles patrimoniales',
+                    'Cena tradicional'
+                ],
+                itinerary: [
+                    { time: '•', desc: 'Centro Histórico' },
+                    { time: '•', desc: 'Iglesia de Santo Domingo' },
+                    { time: '•', desc: 'Calle García Moreno (Siete Cruces)' },
+                    { time: '•', desc: 'La Ronda' },
+                    { time: '•', desc: 'Hasta la Vuelta Señor' }
+                ],
+                icon: 'moon',
                 color: 'purple'
             }
         ];

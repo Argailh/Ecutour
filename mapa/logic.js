@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Importar o Leer Datos (Asumimos LugaresData cargado en HTML)
   if (typeof LugaresData === 'undefined') return console.error("No hay datos de lugares cargados");
 
-  // 3. Renderizar Pines
-  LugaresData.forEach(lugar => {
+  // 3. Renderizar Pines (Filtrado por IDs específicos)
+  const idsMostrar = [1, 3, 7, 105, 6, 8, 11, 118, 116];
+  const lugaresFiltrados = LugaresData.filter(l => idsMostrar.includes(l.id));
+
+  lugaresFiltrados.forEach(lugar => {
     // Solo si tiene coordenadas definidas
     if (lugar.coords) {
 
@@ -35,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
       pin.onclick = () => {
         // Función global definida en shared/popup.js
         if (typeof abrirModal === 'function') {
-          // 'true' indica que viene del mapa -> NO mostrar imagen principal en popup
-          abrirModal(lugar.id, true);
+          // 'false' permite que se muestre la imagen principal en el popup
+          abrirModal(lugar.id, false);
         } else {
           console.error("Popup Shared no cargado");
           alert(lugar.nombre);

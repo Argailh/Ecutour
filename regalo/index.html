@@ -14,48 +14,47 @@
 
     <div class="app-container p-4">
 
-        <!-- HEADER -->
-        <header class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg mb-6">
-            <div class="flex justify-between items-center">
+        <!-- HEADER STANDARD (MATCHING OTHER SECTIONS) -->
+        <header class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg mb-6 relative overflow-hidden">
+            <div class="relative z-10 flex justify-between items-center">
                 <div>
                     <h2 class="text-2xl font-bold">Canjear Puntos</h2>
-                    <p class="text-blue-200 text-sm">Disfruta tus recompensas</p>
+                    <p class="text-blue-100 text-sm">Disfruta tus recompensas</p>
                 </div>
                 <div class="text-center bg-white/20 p-2 rounded-lg backdrop-blur-sm">
                     <p class="text-xs text-blue-100">Saldo Actual</p>
                     <p id="puntosDisp" class="text-xl font-bold text-yellow-300">0</p>
                 </div>
             </div>
+            <!-- Standard Decoration -->
+            <i class="fas fa-gift absolute -right-4 -bottom-4 text-8xl text-white opacity-10 transform rotate-12"></i>
         </header>
 
-        <!-- BANNER -->
-        <div
-            class="bg-gradient-to-r from-orange-400 to-orange-500 text-white p-6 rounded-2xl mb-6 shadow-md relative overflow-hidden">
-            <i class="fas fa-gift absolute -right-6 -bottom-6 text-9xl text-white opacity-20 transform rotate-12"></i>
-            <h2 class="text-lg font-bold z-10 relative">¡Premios Disponibles!</h2>
-            <p class="text-orange-100 z-10 relative text-sm max-w-[70%]">Canjea tus puntos por comida, experiencias y
-                tarjetas de regalo.</p>
-        </div>
-
         <!-- LISTA DE PREMIOS -->
-        <div id="lista-premios" class="space-y-4 mb-20">
+        <div id="lista-premios" class="space-y-6 mb-20">
             <!-- Inyectado por JS -->
+            <div class="flex flex-col items-center justify-center py-10 opacity-50">
+                <i class="fas fa-circle-notch fa-spin text-3xl mb-2 text-gray-400"></i>
+                <p class="text-sm">Cargando premios...</p>
+            </div>
         </div>
 
     </div>
 
-    <!-- MODAL CONFIRMACIÓN -->
+    <!-- MODAL CONFIRMACIÓN (STANDARD STYLE) -->
     <div id="confirmModal"
-        class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl transform scale-100 transition-transform">
+        class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div id="confirmCard"
+            class="bg-white w-full max-w-sm rounded-[2rem] p-6 shadow-2xl transform scale-100 transition-transform relative">
 
-            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+            <div
+                class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl text-blue-600">
                 🎁
             </div>
 
             <h3 class="text-xl font-bold text-gray-900 text-center mb-2">¿Canjear Premio?</h3>
 
-            <p class="text-gray-500 text-center text-sm mb-6">
+            <p class="text-gray-500 text-center text-sm mb-6 px-4">
                 Vas a canjear <strong id="modalItemName" class="text-gray-800">Nombre Item</strong> por
                 <span id="modalItemPoints" class="bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded text-xs">0
                     pts</span>
@@ -74,200 +73,32 @@
         </div>
     </div>
 
-    <!-- MODAL MENSAJE (Éxito / Error) -->
+    <!-- MODAL MENSAJE (STANDARD STYLE) -->
     <div id="messageModal"
-        class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
-        <div
-            class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl transform scale-100 transition-transform text-center">
+        class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div id="msgCard"
+            class="bg-white w-full max-w-sm rounded-[2rem] p-8 shadow-2xl transform scale-100 transition-transform text-center">
 
-            <div id="msgIcon"
-                class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                🎉
+            <div id="msgIconContainer"
+                class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 text-3xl">
+                <i class="fas fa-check"></i>
             </div>
 
             <h3 id="msgTitle" class="text-xl font-bold text-gray-900 mb-2">¡Canje Exitoso!</h3>
             <p id="msgText" class="text-gray-500 text-sm mb-6">Disfruta tu premio.</p>
 
             <button onclick="cerrarMessage()"
-                class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 shadow-lg transition">Aceptar</button>
+                class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition">
+                Aceptar
+            </button>
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- DEPENDENCIAS JS -->
     <script src="../shared/session.js"></script>
     <script src="../shared/nav.js"></script>
-
-    <script>
-        // DATOS DE PREMIOS
-        const PremiosData = [
-            { id: 1, nombre: 'Hamburguesa Whopper', marca: 'Burger King', icono: '🍔', costo: 150, color: 'bg-orange-100' },
-            { id: 2, nombre: 'Café Americano', marca: 'Sweet & Coffee', icono: '☕', costo: 80, color: 'bg-amber-100' },
-            { id: 3, nombre: 'Entrada Cine 2D', marca: 'Supercines', icono: '🎟️', costo: 200, color: 'bg-red-100' },
-            { id: 4, nombre: 'Helado Simple', marca: 'Bogati', icono: '🍦', costo: 60, color: 'bg-pink-100' },
-            { id: 5, nombre: 'Pizza Mediana', marca: 'Papa Johns', icono: '🍕', costo: 350, color: 'bg-green-100' },
-            { id: 6, nombre: 'Tarjeta Regalo $10', marca: 'Amazon', icono: '💳', costo: 1000, color: 'bg-blue-100' },
-            { id: 7, nombre: 'Bebida Grande', marca: 'KFC', icono: '🥤', costo: 50, color: 'bg-red-100' },
-        ];
-
-        let usuarioActual = null;
-        let premioSeleccionado = null;
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Inicializar Usuario
-            const sessionUser = Session.getUser();
-
-            if (!sessionUser || !sessionUser.email) {
-                console.warn("No hay usuario activo, redirigiendo...");
-                // En producción: window.location.href = '../index.html';
-                // Para testing si no hay login, usamos fallback
-            }
-
-            // Usamos sessionUser para render rápido
-            usuarioActual = sessionUser || { puntos: 0, email: 'test@example.com' };
-
-            // Render inicial
-            actualizarSaldoUI();
-            renderPremios();
-
-            // Actualizar datos frescos de DB si es posible
-            if (sessionUser && sessionUser.email) {
-                try {
-                    const dbUser = await DB.getUser(sessionUser.email);
-                    if (dbUser) {
-                        usuarioActual = dbUser;
-                        actualizarSaldoUI();
-                        renderPremios(); // Re-render para actualizar estado de botones
-                    }
-                } catch (e) {
-                    console.error("Error sintonizando con DB:", e);
-                }
-            }
-        });
-
-        function actualizarSaldoUI() {
-            document.getElementById('puntosDisp').innerText = usuarioActual.puntos;
-        }
-
-        function renderPremios() {
-            const container = document.getElementById('lista-premios');
-            container.innerHTML = '';
-
-            PremiosData.forEach(premio => {
-                const puedeCanjear = usuarioActual.puntos >= premio.costo;
-                const opacityClass = puedeCanjear ? '' : 'opacity-60 grayscale-[0.5]';
-                const btnClass = puedeCanjear
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none';
-
-                const card = document.createElement('div');
-                card.className = `bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center hover:shadow-md transition ${opacityClass}`;
-                card.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="${premio.color} w-14 h-14 rounded-xl flex items-center justify-center text-2xl shadow-inner">
-                            ${premio.icono}
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-gray-800 text-sm sm:text-base">${premio.nombre}</h3>
-                            <p class="text-xs text-gray-500 font-medium">${premio.marca}</p>
-                        </div>
-                    </div>
-                    <button onclick="abrirConfirmacion(${premio.id})" ${!puedeCanjear ? 'disabled' : ''}
-                        class="${btnClass} px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg transition active:scale-95 flex flex-col items-center min-w-[80px]">
-                        <span>${premio.costo} pts</span>
-                        ${!puedeCanjear ? '<span class="text-[9px] font-normal">Faltan pts</span>' : ''}
-                    </button>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // --- MODAL LOGIC ---
-        const modal = document.getElementById('confirmModal');
-        const msgModal = document.getElementById('messageModal'); // Renombrado
-
-        window.abrirConfirmacion = function (id) {
-            premioSeleccionado = PremiosData.find(p => p.id === id);
-
-            document.getElementById('modalItemName').innerText = premioSeleccionado.nombre;
-            document.getElementById('modalItemPoints').innerText = `${premioSeleccionado.costo} pts`;
-
-            modal.classList.remove('hidden');
-        };
-
-        window.cerrarModal = function () {
-            modal.classList.add('hidden');
-            premioSeleccionado = null;
-        };
-
-        window.cerrarMessage = function () {
-            msgModal.classList.add('hidden');
-        };
-
-        window.showMessage = function (title, text, isError = false) {
-            const icon = document.getElementById('msgIcon');
-            document.getElementById('msgTitle').innerText = title;
-            document.getElementById('msgText').innerText = text;
-
-            if (isError) {
-                icon.className = "w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
-                icon.innerText = "🛑";
-            } else {
-                icon.className = "w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
-                icon.innerText = "🎉";
-            }
-            msgModal.classList.remove('hidden');
-        };
-
-        document.getElementById('btnConfirmar').onclick = async function () {
-            if (!premioSeleccionado) return;
-            const item = premioSeleccionado; // Guardamos referencia local
-
-            const btn = this;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-
-            try {
-                // Descontar Puntos (Valor Negativo)
-                await Session.updatePoints(-item.costo, `Canje: ${item.nombre}`);
-
-                // Actualizar estado local
-                usuarioActual.puntos -= item.costo;
-                actualizarSaldoUI();
-                renderPremios(); // Re-renderizar por si ya no alcanza para otros
-
-                cerrarModal(); // Esto hace premioSeleccionado = null, pero item sigue vivo
-
-                // Mostrar Success Modal custom
-                // The original code uses showMessage for success.
-                // Assuming 'successMsg' and 'successModal' are placeholders for the existing messageModal and msgText.
-                // If new elements are intended, they should be defined in the HTML.
-                // For now, I'll adapt to use the existing messageModal and msgText.
-                showMessage('¡Canje Exitoso!', `Disfruta tu ${item.nombre}`, false);
-
-            } catch (error) {
-                console.error("Error en canje:", error);
-
-                // Cerrar modal de confirmación si sigue abierto
-                cerrarModal();
-
-                // Mostrar mensaje real del error para depuración
-                const errorMsg = error.message || 'No se pudo completar el canje. Intenta de nuevo.';
-                showMessage('Error', errorMsg, true);
-            } finally {
-                btn.innerHTML = 'Confirmar';
-                btn.disabled = false;
-            }
-        };
-
-        // Cerrar al click fuera
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) cerrarModal();
-        });
-        msgModal.addEventListener('click', (e) => {
-            if (e.target === msgModal) cerrarMessage();
-        });
-
-    </script>
+    <!-- Lógica Principal -->
+    <script src="logic.js"></script>
 
 </body>
 
